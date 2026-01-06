@@ -1,0 +1,14 @@
+def maxProfit(prices):
+    minp = float('inf') #一個比任何數都大的值，用來初始化最小值
+    max_profit = 0
+
+    for p in prices:
+        if p < minp:        # 找最低的買點
+            minp = p
+        else:
+            current_profit = p - minp
+            max_profit = max(max_profit, current_profit)
+
+    return max_profit
+
+print(maxProfit([2,4,1,2]))

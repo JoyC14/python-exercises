@@ -1,0 +1,44 @@
+class Student:
+    def __init__(self,name,student_id):
+        self.name = name
+        self.student_id = student_id
+        self.grades = []
+    
+    def add_grade(self, grade):
+        if 0 <= grade <= 100:
+            self.grades.append(grade)
+
+    def average(self):
+        if self.grades == []:
+            return None
+        else:
+            return sum(self.grades) / len(self.grades)
+
+    def has_passed(self):
+        avg = self.average()
+        if avg is None:
+            return False
+        elif avg >= 50:
+            return True
+        else:
+            return False
+
+    def __str__(self):
+        avg = self.average()
+        if avg is None:
+            return (f"Student(name = {self.name}, id = {self.student_id}, average = N/A")
+        else:
+            avg = round(self.average(), 1)
+            return (f"Student(name = {self.name}, id = {self.student_id}, average = {avg})")
+
+s1 = Student("Alice", 123)
+s1.add_grade(70)
+s1.add_grade(85)
+s1.add_grade(84)
+print(s1.average())      # 77.5
+print(s1.has_passed())   # True
+print(s1)                # "Student(name=Alice, id=123, average=77.5)"
+s2 = Student("Bob", 456)
+print(s2.average())      # None
+print(s2.has_passed())   # False
+print(s2)                # "Student(name=Bob, id=456, average=N/A)"

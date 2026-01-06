@@ -1,0 +1,44 @@
+def romanToInt(s):
+    """
+    :type s: str
+    :rtype: int
+    """
+    roman = {"I" : 1, "V" : 5, "X" : 10, "L" : 50, "C" : 100, "D" : 500, "M" :1000}
+    four = "IV" 
+    nine = "IX"
+    forty = "XL"
+    ninety = "XC"
+    fourh = "CD"
+    nineh = "CM"
+
+    count = 0
+    a = {}
+    if four in s:
+        s = s.replace("IV","")
+        count += 4
+    if nine in s:
+        s = s.replace("IX","")
+        count += 9
+    if forty in s:
+        s = s.replace("XL","")
+        count += 40
+    if ninety in s:
+        s = s.replace("XC","")
+        count += 90
+    if fourh in s:
+        s = s.replace("CD","")
+        count += 400
+    if nineh in s:
+        s = s.replace("CM","")
+        count += 900
+        
+    for i, each in enumerate(s):
+        a[each] = i
+
+        if each in roman:
+            count = count + roman[each]
+    return count
+    
+print(romanToInt("MCMXCIV"))
+
+

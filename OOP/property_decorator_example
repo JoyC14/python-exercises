@@ -1,0 +1,25 @@
+class Student:
+    """
+    Represent a student with a validated age.
+    """
+    def __init__(self, age):
+        # 使用 setter 來初始化屬性，這樣可以確保初始值也經過驗證。
+        self.age = age
+
+    @property
+    def age(self): # Getter for reading the age
+        """Controlled read access to the student's age."""
+        return self._age # 返回內部私有屬性 [cite: 77]
+
+    @age.setter
+    def age(self, value): # Setter for writing the age
+        """Controlled write access with validation."""
+        # 驗證邏輯：年齡必須大於或等於 0 
+        if value < 0:
+            raise ValueError("Age must be greater than or equal to 0.")
+        
+        # 驗證通過，將值賦給內部私有屬性 [cite: 82]
+        self._age = value
+
+s = Student(20) 
+print(f"Initial age: {s.age}")

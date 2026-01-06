@@ -1,0 +1,54 @@
+import csv
+
+def analyse_payroll(file_path):
+    # Return a dictionary with containing payroll data.
+    with open(file_path,"r") as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        total_hours = 0
+        total_payout = 0
+        average_hours = set()
+        hardest_worker = " "
+        max_hours = -1
+        department_costs = {}
+
+        for row in csv_reader:
+            employee = row["Employee"]
+            dept = row["Department"]
+            hour = float(row["Hoursworked"])
+            rate = float(row["HourlyRate"])
+
+            total_hours += hour
+
+            pay = hour * rate
+            total_payout += pay
+
+            average_hours.add(row["Employee"])
+            average_hours_per_employee = total_hours / len(average_hours)
+
+            # hardest_worker = max(row["Hoursworked"])
+  
+            if hour > max_hours:
+                max_hours = hour
+                hardest_worker = row["Employee"]
+
+
+            if dept in department_costs:
+                department_costs[dept] += pay
+            else:
+                department_costs[dept] = pay
+
+
+    dic = {
+        "total_hours": total_hours,
+        "total_payout": total_payout,
+        "average_hours_per_employee": average_hours_per_employee,
+        "hardest_worker": hardest_worker,
+        "department_costs": department_costs
+    }
+
+    return dic
+
+
+if __name__ == "__main__":
+    # Test your code locally
+    print(analyse_payroll("/Users/changchiehyu/Downloads/payroll.csv"))

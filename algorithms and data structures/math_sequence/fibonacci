@@ -1,0 +1,10 @@
+which = int(input("Enter which index you would like?"))
+f = [0]
+
+for i in range(0,which+1):
+    if i >= 2:
+        f.append(f[i-1] + f[i-2])
+    elif i == 1:
+        f.append(1)
+        
+print(f[-1])

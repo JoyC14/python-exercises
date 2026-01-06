@@ -1,0 +1,17 @@
+def wordPattern(pattern, s):
+    map = {}
+    new_s = s.split(" ")
+    if len(pattern) != len(new_s):
+        return False
+    
+    for v1, v2 in zip(pattern, new_s):
+        if v1 in map:
+            if map[v1] != v2:
+                return False
+        elif v2 in map.values():
+            return False
+        else:
+            map[v1] = v2
+    return True
+
+print(wordPattern("abba", "dog cat cat dog"))

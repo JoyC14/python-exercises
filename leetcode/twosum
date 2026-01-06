@@ -1,0 +1,16 @@
+def twoSum(nums, target):
+        """
+        :type nums: List[int]
+        :type target: int
+        :rtype: List[int]
+        """
+        hashmap = {}  # 建立一個字典來存數字與索引
+        for i, num in enumerate(nums):# 使用 enumerate 來獲取索引與數字
+            diff = target - num  # 計算需要的數字
+            if diff in hashmap:  # 如果這個數字已經在字典裡
+                return [hashmap[diff], i]  # 回傳對應的索引   
+            else:
+                hashmap[num] = i # 把當前數字存進字典 
+        
+
+print(twoSum([3,3,4],6))

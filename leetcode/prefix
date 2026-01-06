@@ -1,0 +1,21 @@
+def longestCommonPrefix(strs):
+        """
+        :type strs: List[str]
+        :rtype: str
+        """
+
+        # 先把第一個字串當成基準
+        prefix = strs[0]
+
+        # 依序跟後面的字串比
+        for s in strs[1:]:
+            # 只要當前字串 s 不是以 prefix 開頭，就縮短 prefix
+            while not s.startswith(prefix):
+                prefix = prefix[:-1]  # 去掉最後一個字
+                if prefix == "":
+                    return ""
+
+        return prefix
+
+                
+print(longestCommonPrefix(["flower","flow","flight"]))

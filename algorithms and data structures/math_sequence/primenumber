@@ -1,0 +1,21 @@
+def primenum(prime_number):
+    number = (2,3,5,7)
+    if int(prime_number)%2!=0 and int(prime_number)%3!=0 and int(prime_number)%5!=0 and int(prime_number)%7!=0 or int(prime_number) in number:
+        return True
+    else:
+        return False   
+
+def boolean():
+    list = []
+    while True:
+        user_num = input("enter an integer number")  
+        if primenum(user_num) is True:
+            list.append(True)
+        elif user_num == "0":
+            print(list)
+            break
+        else:
+            list.append(False)
+
+boolean()
+

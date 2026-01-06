@@ -1,0 +1,124 @@
+from datetime import datetime, date
+import json
+
+class CountryNotVisitedError(Exception):
+    """Custom exception raised when input a country that has not been visited."""
+    pass
+
+class Passport:
+    """
+    A class representing a passport object.
+
+    Attributes:
+        first_name (str)
+        last_name (str)
+        dob (date)
+        country (str)
+        exp_date (date)
+        id (int): unique passport number
+        countries (dict): visited countries {country_name: times_visited}
+
+    Class Attributes:
+        count (int): number of passports created, used to assign passport numbers
+    """
+    count = 0
+
+    def __init__(self, first_name, last_name, dob, country, exp_date):
+        """Initialize the object properties of this class."""
+
+        self.first_name = first_name
+        self.last_name = last_name
+        self.dob = datetime.strptime(dob, "%Y-%m-%d").date()
+        self.country = country
+        self.exp_date = datetime.strptime(exp_date, "%Y-%m-%d").date()
+
+        self.id = Passport.count
+        Passport.count += 1
+
+        self.country_dic = {}
+
+    def passport_number(self):
+        """Return passport ID number."""
+
+        return self.id
+
+    def is_valid(self):
+        """True if exp.date is in the future."""
+
+        today = date.today()
+        if self.exp_date > today:
+            return True
+        else:
+            return False
+
+    def summary(self):
+        """Summary with human-readable information about the passport."""
+
+        if self.is_valid() is True:
+            validity = "valid"
+        else:
+            validity = "invalid"
+        return (f"This passport belongs to {self.first_name} {self.last_name}, born on {self.dob} in {self.country}. It is {validity}.")
+
+    def check_data(self, first_name, last_name, dob, country):
+        """Check whether that data is exactly the same as the passport object."""
+
+        check_dob = datetime.strptime(dob, "%Y-%m-%d").date()
+        if self.first_name == first_name and self.last_name == last_name and self.dob == check_dob and self.country == country and self.is_valid():
+            return True
+        else:
+            return False
+
+    def stamp(self, country_name):
+        """Record that this country was visited."""
+
+        if self.country == country_name:
+            return
+        else:
+            if country_name not in self.country_dic:
+                self.country_dic[country_name] = 1
+            else:
+                self.country_dic[country_name] += 1
+
+    def countries_visited(self):
+        """Return the countries that have been stamped."""
+
+        return (self.country_dic.keys())
+
+    def times_visited(self, country_name):
+        """Returns the number of times that country has been visited (stamped)."""
+
+        if country_name not in self.country_dic:
+            raise CountryNotVisitedError(f"Never visited {country_name}.")
+        else:
+            return (self.country_dic[country_name])
+
+    def sum_square_visits(self):
+        """Returns sum of squares of the times_visited over each visited country."""
+
+        total = 0
+        for times in self.country_dic.values():
+            total = total + times**2
+        return (total)
+
+    def export(self, file_name):
+        """export passport to json file"""
+
+        data = {
+            "first_name": self.first_name,
+            "last_name": self.last_name,
+            "dob": self.dob.isoformat(),
+            "country": self.country,
+            "exp_date": self.exp_date.isoformat(),
+            "countries_visisted": self.country_dic,
+            "passport_number": self.id
+            }
+
+        with open(file_name, "w") as json_file: 
+            json.dump(data, json_file)
+
+
+a = Passport("a","b","2010-06-23","uk","2026-06-23")
+b = Passport("a","b","1912-06-23","uk","2026-06-23")
+print(b.is_valid())
+b.export("abc")

@@ -1,0 +1,66 @@
+class EventBooking:
+    """A class representing a standard event booking."""
+
+    def __init__(self, base_price, attendees, venue_name):
+        """Initialisation of an EventBooking class, requiring a base_price (float), attendees (int/float), and venue_name (string)."""
+        if base_price <= 0 or attendees <= 0:
+            raise ValueError("Price and attendees must be positive")
+    
+        self.base_price = float(base_price)
+        self.attendees = float(attendees)
+        self.venue_name = venue_name
+
+    def total_cost(self):
+        """Calculate the total cost of the booking."""
+        return self.base_price * self.attendees
+
+    def update_price(self, new_price):
+        """Update the base price per attendee."""
+        if new_price <= 0:
+            raise ValueError("New price must be positive")
+        self.base_price = float(new_price)
+
+class CorporateEvent(EventBooking):
+    """Inherits from EventBooking."""
+
+    def __init__(self, base_price, attendees, venue_name, catering_fee = 300.0):
+        """Initialisation of an CorporateEvent class, adding a new attribute catering_fee (flooat)."""
+        super().__init__(base_price, attendees, venue_name)
+        self.catering_fee = float(catering_fee)
+ 
+        if self.catering_fee < 0:
+            raise ValueError
+ 
+    def apply_member_discount(self, rate):
+        """Calculate the discount of total cost."""
+        discount = self.base_price - self.base_price * rate
+        self.base_price = discount
+
+    def total_cost(self):
+        """Calculates the base cost using the EventBooking class, and reflects any applied discount."""
+        return float(self.base_price * self.attendees + self.catering_fee)
+
+# Implement the CorporateEvent class here
+if __name__ == "__main__":
+    # Some tests for yourself, just for you to check the output!
+    # These are not graded as part of your output.
+
+    # 1. Test Base Class (EventBooking)
+    booking = EventBooking(base_price=50, attendees=10, venue_name="Venue A")
+    print(booking.total_cost())  # Expected: 50 * 10 = 500.0
+
+    # 2. Test Subclass Init & Base Cost
+    corp_event = CorporateEvent(base_price=100, attendees=5, venue_name="Venue B", catering_fee=50)
+    # Expected: (100 * 5) + 50 = 550.0
+    print(corp_event.total_cost())
+
+    # 3. Test Discount Application
+    corp_event.apply_member_discount(0.2) # Base price changes from 100 to 80
+    # Expected: (80 * 5) + 50 = 450.0
+    print(corp_event.total_cost())
+
+    # 4. Test Price Update
+    corp_event.update_price(120) # Base price changes from 80 to 120
+    # Expected: (120 * 5) + 50 = 650.0
+    print(corp_event.total_cost())
+ 
